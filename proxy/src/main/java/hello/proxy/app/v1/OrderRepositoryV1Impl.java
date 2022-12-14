@@ -7,7 +7,7 @@ public class OrderRepositoryV1Impl implements OrderRepositoryV1{
         if(itemId.equals("ex")){
             throw new IllegalArgumentException("예외발생!");
         }
-        sleep(1000);
+        sleep(2000);
     }
 
     private void sleep(int i) {
