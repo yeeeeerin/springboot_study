@@ -56,7 +56,7 @@ public class ProxyFactoryTest {
     void proxyTargetClass(){
         ServiceInterface target = new ServiceImpl();
         ProxyFactory proxyFactory = new ProxyFactory(target);
-        proxyFactory.setProxyTargetClass(true);
+        proxyFactory.setProxyTargetClass(true); //스프링부터  aop는 기본적으로 이 설정값을 true로 놓고 설정함
         proxyFactory.addAdvice(new TimeAdvice());
         ServiceInterface proxy = (ServiceInterface) proxyFactory.getProxy();
         log.info("target calss == {}",target.getClass());
