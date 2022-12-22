@@ -1,9 +1,6 @@
 package com.example.stock.domain;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
 
 @Entity
 public class Stock {
@@ -12,6 +9,10 @@ public class Stock {
     private Long id;
     private Long productId;
     private Long quantity;
+
+    //OPTIMISTIC LOCK 을 위한 컬럼
+    @Version
+    private Long version;
 
     public Stock(){
 
