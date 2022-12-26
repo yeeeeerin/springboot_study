@@ -8,6 +8,8 @@ spring:
     url: jdbc:mysql://127.0.0.1:3306/stock_example
     username: root
     password: 1234
+    hikari:
+      maximum-pool-size: 40 #named lock에서 같은 데이터 소스를 사용할거기때문에 커넥션 풀 들려주기
 
 logging:
   level:

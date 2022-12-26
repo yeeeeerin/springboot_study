@@ -3,6 +3,7 @@ package com.example.stock.service;
 import com.example.stock.domain.Stock;
 import com.example.stock.repository.StockRepository;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Optional;
@@ -15,7 +16,7 @@ public class StockService {
         this.stockRepository = stockRepository;
     }
 
-    //@Transactional
+    @Transactional(propagation = Propagation.REQUIRES_NEW) //<-- Named Lock 을 사용할때는 부모의 트렌젝션과 별도로 실행해야하기때문에 해당 propagation 이필요하다.
     public synchronized void decrease(Long id,Long quantity){
         //stock 꺼내기
         //재고 감소하기
