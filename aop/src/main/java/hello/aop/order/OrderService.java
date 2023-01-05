@@ -9,8 +9,9 @@ public class OrderService {
 
     private final OrderRepository orderRepository;
 
-    public void orderItem(String itemId) {
+    public String orderItem(String itemId) {
         orderRepository.save(itemId);
+        return itemId;
     }
 }
 

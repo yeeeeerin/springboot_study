@@ -2,8 +2,7 @@ package hello.aop;
 
 import hello.aop.order.OrderRepository;
 import hello.aop.order.OrderService;
-import hello.aop.order.aop.AspectV1;
-import hello.aop.order.aop.AspectV2;
+import hello.aop.order.aop.*;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.Test;
 import org.springframework.aop.support.AopUtils;
@@ -13,7 +12,7 @@ import org.springframework.context.annotation.Import;
 
 @SpringBootTest
 @Slf4j
-@Import(AspectV2.class) //스프링빈 등록함
+@Import(AspectV6Advice.class) //스프링빈 등록함
 class AopApplicationTests {
 
     @Autowired
@@ -29,6 +28,11 @@ class AopApplicationTests {
         log.info("isaop, orderService={}", AopUtils.isAopProxy(orderService));
         log.info("isaop, orderRepository={}", AopUtils.isAopProxy(orderRepository));
 
+    }
+
+    @Test
+    void call(){
+        orderService.orderItem("ii");
     }
 
 }

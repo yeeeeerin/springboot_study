@@ -12,23 +12,18 @@ import org.aspectj.lang.annotation.Pointcut;
 public class AspectV3 {
 
     /*
-    * 포인트컷 분리
-    * 장점 : 의미부여, 포인트컷 모아두고 다른곳에서 참조하는식으로 모듈화 가능
+    * 만약 어드바이스 순서를 바꾸고 싶으면 어떡할까??
+    * doLog -> doTransaction 이아닌 doTransaction -> doLog 한다면?
     * */
-    @Pointcut("execution(* hello.aop.order..*(..))")
-    private void allOrder(){} //Pointcut Signature
 
-    @Pointcut("execution(* *..*Service.*..*(..))")
-    private void allService(){}
-
-    @Around("allOrder()") // 포인트컷
+    @Around("hello.aop.order.aop.PointCuts.allOrder()") // 포인트컷
     public Object doLog(ProceedingJoinPoint joinPoint) throws Throwable{ //어드바이스
         log.info("[log] {}",joinPoint.getSignature()); // joinPoint.getSignature() -> 메서드의 정보
         return joinPoint.proceed();
     }
 
     //hello.aop.order 하위 패키지면서 && 클래스이름 패턴이 *Service ////*Serv* 이런것도 가능함
-    @Around("allOrder() && allService()") // 포인트컷
+    @Around("hello.aop.order.aop.PointCuts.allOrder() && hello.aop.order.aop.PointCuts.allService()") // 포인트컷
     public Object doTransaction(ProceedingJoinPoint joinPoint) throws Throwable{ //어드바이스
         try {
             log.info("트랜젝션 시 {}", joinPoint.getSignature());
