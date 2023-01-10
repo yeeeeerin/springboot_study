@@ -6,10 +6,13 @@ import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.*;
 
+/*
+* @Around와
+* */
+
 @Aspect
 @Slf4j
 public class AspectV6Advice {
-    //hello.aop.order 하위 패키지면서 && 클래스이름 패턴이 *Service ////*Serv* 이런것도 가능함
 /*    @Around("hello.aop.order.aop.PointCuts.allOrder() && hello.aop.order.aop.PointCuts.allService()") // 포인트컷
     public Object doTransaction(ProceedingJoinPoint joinPoint) throws Throwable{ //어드바이스
         try {
