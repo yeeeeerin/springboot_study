@@ -65,4 +65,69 @@ public class FlowableTest {
                 );
         Thread.sleep(4000l);
     }
+
+    @Test
+    public void bufferOldest() throws InterruptedException {
+        /*
+         * DROP_OLDEST 배압전략
+         *
+         * */
+        Flowable.interval(300L, TimeUnit.MILLISECONDS)
+                .doOnNext(data -> logger.info("#doOnNext={}",data)) //interval 에서 어떤 데이터를 통지했는지
+                .onBackpressureBuffer(
+                        2, //버퍼에 들어올 수 있는 개수
+                        ()->logger.info("overflow!"), //버퍼가 가득 찼을 때
+                        BackpressureOverflowStrategy.DROP_OLDEST)
+                .doOnNext(data -> logger.info("#onBackpressureBuffer doOnNext={}",data)) //버퍼내에서 데이터가 통지 될 때
+                .observeOn(Schedulers.computation(),false,1) //여기서 버퍼사이즈는 소비자쪽 요청 데이터 개수
+                .subscribe( //소비자 데이터 처리
+                        data -> {
+                            Thread.sleep(1000l);
+                            logger.info("데이터 처리",data);
+                        },
+                        error -> logger.error("{}",error)
+                );
+        Thread.sleep(4000l);
+    }
+
+
+    @Test
+    public void drop() throws InterruptedException {
+        /*
+         * DROP 배압전략
+         *
+         * */
+        Flowable.interval(300L, TimeUnit.MILLISECONDS)
+                .doOnNext(data -> logger.info("#doOnNext={}",data)) //interval 에서 어떤 데이터를 통지했는지
+                .onBackpressureDrop(data -> logger.info("drop = {}", data))
+                .observeOn(Schedulers.computation(),false,1) //여기서 버퍼사이즈는 소비자쪽 요청 데이터 개수
+                .subscribe( //소비자 데이터 처리
+                        data -> {
+                            Thread.sleep(1000l);
+                            logger.info("데이터 처리={} ",data);
+                        },
+                        error -> logger.error("{}",error)
+                );
+        Thread.sleep(4000l);
+    }
+
+    @Test
+    public void latest() throws InterruptedException {
+        /*
+         * 버퍼가 다 차면 통지된 데이터들 기다리고있다가 비퍼가 다 비워졌을 때, 가장 나중에 통지가 된 데이터를 통지함
+         *
+         * */
+        Flowable.interval(300L, TimeUnit.MILLISECONDS)
+                .doOnNext(data -> logger.info("#doOnNext={}",data)) //interval 에서 어떤 데이터를 통지했는지
+                .onBackpressureLatest()
+                .observeOn(Schedulers.computation(),false,1) //여기서 버퍼사이즈는 소비자쪽 요청 데이터 개수
+                .subscribe( //소비자 데이터 처리
+                        data -> {
+                            Thread.sleep(1000l);
+                            logger.info("데이터 처리 = {}",data);
+                        },
+                        error -> logger.error("{}",error)
+                );
+        Thread.sleep(4000l);
+    }
 }
