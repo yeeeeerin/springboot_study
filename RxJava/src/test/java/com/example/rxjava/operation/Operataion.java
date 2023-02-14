@@ -100,5 +100,32 @@ public class Operataion {
         logger.info("짧은거 완료~~~~");
     }
 
+    @Test
+    void take() throws InterruptedException {
+        Observable.just("a","b","c","d")
+                .take(3)
+                .subscribe(logger::info);
+
+        Observable.interval(1000L,TimeUnit.MILLISECONDS)
+                .take(3500L,TimeUnit.MILLISECONDS)
+                .subscribe(data -> logger.info("{}",data));
+
+        Thread.sleep(3500L);
+    }
+
+    @Test
+    void skip() throws InterruptedException {
+        Observable.range(1,4)
+                .skip(2)
+                .subscribe(data -> logger.info("{}",data));
+
+        Observable.interval(1000L,TimeUnit.MILLISECONDS)
+                .skip(3000L,TimeUnit.MILLISECONDS)
+                .take(5500L,TimeUnit.MILLISECONDS)
+                .subscribe(data -> logger.info("{}",data));
+
+        Thread.sleep(5500L);
+    }
+
 
 }
